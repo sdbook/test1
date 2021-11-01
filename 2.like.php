@@ -7,7 +7,7 @@ if(isset($_GET['id'])) {
 }
 
 if ($id>0) {
-	$sql = "update guestbook set likes=likes+1 where id=?;";
+	$sql = "update guestbook set `likes`=likes+1 where id=?;";
 	$stmt = mysqli_prepare($db, $sql );
 	mysqli_stmt_bind_param($stmt, "i", $id);
 	mysqli_stmt_execute($stmt);
