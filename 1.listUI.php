@@ -1,6 +1,6 @@
 <?php
 require("dbconfig.php");
-if ( ! checkAccess()) {
+if ( ! (checkAccess('user') or checkAccess('admin'))) {
 	header("Location: 0.loginUI.php");
 }
 
@@ -14,7 +14,9 @@ if ( ! checkAccess()) {
 
 <body>
 
-<p><?php echo "hello ",$_SESSION['userID'];  ?>	<a href='1.insertUI.php'>Add</a></p>
+<p><?php echo "hello ",$_SESSION['userID'];  ?>	<a href='1.insertUI.php'>Add</a>
+<a href='0.loginUI.php'>logout</a>
+</p>
 <hr />
 <table width="200" border="1">
   <tr>
@@ -40,9 +42,12 @@ while (	$rs = mysqli_fetch_assoc($result)) {
 	"</td><td>", $rs['name'], "</td>",
 	"</td><td>", $rs['likes'], "</td>",
 	"<td><a href='2.like.php?id=", $rs['id'], "&t=1'>Like</a> ",
-	"<a href='2.like.php?id=", $rs['id'], "&t=-1'>Dislike</a> ",
-	"<a href='2.delete.php?id=", $rs['id'], "'>Delete</a> ",
-	"<a href='1.editUI.php?id=", $rs['id'], "'>Edit</a></td></tr>";
+	"<a href='2.like.php?id=", $rs['id'], "&t=-1'>Dislike</a> ";
+	if (checkAccess('admin')) {
+		echo "<a href='2.delete.php?id=", $rs['id'], "'>Delete</a> ",
+		"<a href='1.editUI.php?id=", $rs['id'], "'>Edit</a>";
+	}
+	echo "</td></tr>";
 }
 ?>
 </table>
