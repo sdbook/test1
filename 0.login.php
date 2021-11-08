@@ -4,7 +4,7 @@ require_once("dbconfig.php");
 	$loginID = $_POST["id"];
 	$password = $_POST["pwd"];
 
-$sql = "select loginID,role from user where password=PASSWORD(?);";
+$sql = "select loginID,role,level from user where password=PASSWORD(?);";
 $stmt = mysqli_prepare($db, $sql );
 mysqli_stmt_bind_param($stmt, "s", $password); //bind parameters with variables
 mysqli_stmt_execute($stmt);
@@ -12,7 +12,8 @@ $result = mysqli_stmt_get_result($stmt);
 if ($rs = mysqli_fetch_assoc($result)) {
 	if ($rs['loginID'] == $loginID) {
 		$_SESSION["userID"] = $loginID; //session 跑计﹚
-		$_SESSION["role"] = $rs['role']; //session 跑计﹚
+		//$_SESSION["role"] = $rs['role']; //session 跑计﹚
+		$_SESSION["role"] = $rs['level']; //session 跑计﹚
 		header("Location: 1.listUI.php");
 	} else {
 		$_SESSION["userID"] = '';

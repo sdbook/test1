@@ -1,6 +1,6 @@
 <?php
 require("dbconfig.php");
-if ( ! (checkAccess('user') or checkAccess('admin'))) {
+if ( ! (checkAccess(1))) {
 	header("Location: 0.loginUI.php");
 }
 
@@ -43,7 +43,7 @@ while (	$rs = mysqli_fetch_assoc($result)) {
 	"</td><td>", $rs['likes'], "</td>",
 	"<td><a href='2.like.php?id=", $rs['id'], "&t=1'>Like</a> ",
 	"<a href='2.like.php?id=", $rs['id'], "&t=-1'>Dislike</a> ";
-	if (checkAccess('admin')) {
+	if (checkAccess(5)) {
 		echo "<a href='2.delete.php?id=", $rs['id'], "'>Delete</a> ",
 		"<a href='1.editUI.php?id=", $rs['id'], "'>Edit</a>";
 	}
