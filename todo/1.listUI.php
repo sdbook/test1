@@ -20,6 +20,7 @@ require("todoModel.php");
     <td>note</td>
     <td>start</td>
 	<td>finish</td>
+	<td>-</td>
   </tr>
 <?php
 
@@ -29,7 +30,8 @@ foreach ($result as $job){
 	"</td><td>", $job['title'],
 	"</td><td>" , $job['note'], 
 	"</td><td>", $job['start'], "</td>",
-	"</td><td>", $job['finish'], "</td>";
+	"</td><td>", $job['finish'], "</td>",
+	"</td><td><a href='todoControl.php?act=setFinish&id=", $job['id'], "'>done</a></td>";
 	echo "</tr>";
 }
 ?>

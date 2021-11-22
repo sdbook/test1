@@ -1,7 +1,13 @@
 <?php
 require_once("dbconfig.php");
 function addJob($title,$note) {
-	return false;
+	global $db;
+	$sql = "insert into todo (title, note) values (?, ?)";
+	$stmt = mysqli_prepare($db, $sql); //prepare sql statement
+	mysqli_stmt_bind_param($stmt, "ss", $title, $note); //bind parameters with variables
+	mysqli_stmt_execute($stmt);  //執行SQL
+
+	return true;
 }
 
 function getJobList() {
@@ -36,6 +42,12 @@ function getJobList() {
 
 
 function setFinished($id){
-	return false;
+	global $db;
+	$sql = "update todo set finish=now() where id=?;";
+	$stmt = mysqli_prepare($db, $sql); //prepare sql statement
+	mysqli_stmt_bind_param($stmt, "i", $id); //bind parameters with variables
+	mysqli_stmt_execute($stmt);  //執行SQL
+
+	return true;
 }
 ?>
