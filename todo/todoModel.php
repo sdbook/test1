@@ -10,7 +10,7 @@ function addJob($title,$note) {
 	return true;
 }
 
-function getJobList() {
+function getJobList($type=0) {
 	global $db;
 	/*
 	$a=array();
@@ -22,7 +22,13 @@ function getJobList() {
 	$aa[]=$a;
 	return  $aa;
 	*/
-	$sql = "select * from todo order by id desc;";
+	if ($type==1) {
+		$sql = "select * from todo where not isnull(finish) order by id desc;";
+	} else if ($type==2) {
+		$sql = "select * from todo where isnull(finish) order by id desc;";
+	} else {
+		$sql = "select * from todo order by id desc;";		
+	}
 	$stmt = mysqli_prepare($db, $sql );
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt); 

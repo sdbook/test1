@@ -10,7 +10,9 @@ require("todoModel.php");
 
 <body>
 
-<p><a href='1.insertUI.php'>Add</a>
+<p><a href='1.insertUI.php'>Add</a><hr>
+<a href='1.listUI.php'>list all</a> <a href='1.listUI.php?t=1'>list finished</a> 
+<a href='1.listUI.php?t=2'>list unfinished</a>
 </p>
 <hr />
 <table width="200" border="1">
@@ -23,8 +25,12 @@ require("todoModel.php");
 	<td>-</td>
   </tr>
 <?php
-
-$result = getJobList(); 
+if (isset($_GET['t'])) {
+	$t=(int)$_GET['t'];
+} else {
+	$t=0;
+}
+$result = getJobList($t); 
 foreach ($result as $job){
 	echo "<tr><td>" , $job['id'] ,
 	"</td><td>", $job['title'],
