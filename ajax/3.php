@@ -13,6 +13,11 @@ $sql="select * from todo where title like ?";
 	$result = mysqli_stmt_get_result($stmt);
 	$rows = array();
 	while($r = mysqli_fetch_assoc($result)) {
+		/*
+		$temp=array();
+		$temp['a'] = $r['id'];
+		$temp['b'] = $r['title'];
+		$rows[]=$temp;*/
 		$rows[] = $r;
 	}
 echo json_encode($rows);

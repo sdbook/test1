@@ -47,7 +47,8 @@
 		)
 		.then(
 			function(data) {
-				//console.log(data)
+				console.log(data)
+				//x=data[3]['b']
 				json2table(data,'main');
 			}
 		)
@@ -97,7 +98,7 @@
 
 		// Build the final table
 		const table = `
-		<table>
+		<table border='1'>
 		  ${header}
 		  ${body}
 		</table>
@@ -120,7 +121,7 @@
 	</script>
   </head>
   <body>
-  URL: <select id='myurl' onchage="loadPage()">
+  URL: <select id='xurl' onchage="loadPage()">
   <option value='1.php'>page 1</option>
   <option value='2.php?f=1.jpg'>page 2:1.jpg</option>
   <option value='2.php?f=2.jpg'>page 2:2.jpg</option>
@@ -128,7 +129,7 @@
   
   <a href="javascript:loadPage()">loadPage</a>
   <a href="#" onclick="loadPage()">loadPage</a>
-  <input id="youurl" type='text'> <button onclick="loadPage()">load url</button>
+  <input id="myurl" type='text'> <button onclick="loadPage()">load url</button>
 <button onclick="loadJSON()">load json to table</button>
 <!-- main working div-->
 <div id="main">hello</div>
