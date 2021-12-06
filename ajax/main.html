@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AJAX example</title>
+
+    <!-- import CSS 
+    <link rel="stylesheet" href="js/jquery-ui.min.css">
+    <style>
+    </style>
+	<script src="js/vue.global.prod.js"></script>
+
+-->
+	<script>
+	function loadURL(url,divID) {
+		fetch(url)
+		.then(function(resp){
+				return resp.text();
+		})
+		.then(function(text) {
+			if (text){
+				el = document.getElementById(divID);
+				el.innerHTML=text;
+			}
+		})
+	}
+
+	function postData(url,keyword) {
+		let mydat = new FormData();
+		
+		mydat.append( "f",keyword);
+		fetch(url,{
+			method: 'POST', // or 'GET', 'PUT'
+			body: mydat
+			//body: JSON.stringify(data)
+		})
+		//.then(function(resp){return resp.text();})		
+		.then(
+			function(res) {
+				//console.log(res)
+				return res.json();
+			}
+		)
+		.then(
+			function(data) {
+				//console.log(data)
+				json2table(data,'main');
+			}
+		)
+	}
+	
+	function postForm(url,formID) {
+		let mydat = new FormData();
+		myform = document.getElementById(formID);		
+		for (const pair of new FormData(myform)) {
+			mydat.append(pair[0], pair[1]);
+		}
+		fetch(url,{
+			method: 'POST',
+			body: mydat
+		})
+		//.then(function(resp){return resp.text();})		
+		.then(
+			function(res) {
+				//console.log(res)
+				return res.json();
+			}
+		)
+		.then(
+			function(data) {
+				//console.log(data)
+				json2table(data,'main');
+			}
+		)
+	}
+
+	
+	function json2table(json,divID) {
+		// Get keys (=cells) of each items
+		const keys = Object.keys(json[0]);
+
+		// Build the table header
+		const header = `<thead><tr>` + 
+		keys.map(key => `<th>${key}</th>`)
+		  .join('') + `</thead></tr>`;
+  
+		// Build the table body
+		const body = `<tbody>` +
+		  json.map(row => `<tr>${Object.values(row)
+			.map(cell => `<td>${cell}</td>`)
+			.join('')}</tr>`
+		  ).join('');
+
+		// Build the final table
+		const table = `
+		<table>
+		  ${header}
+		  ${body}
+		</table>
+		`;
+  
+		// Append the result into #root element
+		document.getElementById(divID).innerHTML = table;
+	}
+
+	function loadPage() {
+		let url=document.getElementById('myurl').value;
+		console.log(url);
+		loadURL(url, 'main');
+	}
+	
+	function loadJSON() {
+		let keyw=document.getElementById('myurl').value;
+		postData("3.php", keyw);
+	}
+	</script>
+  </head>
+  <body>
+  URL: <input id="myurl" type='text'> <button onclick="loadPage()">load url</button>
+<button onclick="loadJSON()">load json to table</button>
+<!-- main working div-->
+<div id="main">hello</div>
+</body>
+</html>
