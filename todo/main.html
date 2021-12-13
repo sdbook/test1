@@ -26,7 +26,7 @@
 				for ( let row of json) {
 					tableStr += "<tr><td>" + row['title'];
 					tableStr += "</td><td>" + row['note'];
-					tableStr += "</td></tr>";
+					tableStr += "</td><td><button onclick='setJobDone(" + row['id'] + ")'> 已完成</button></td></tr>";
 				}
 				tableStr += "</table>";
 				document.getElementById("main").innerHTML=tableStr;
@@ -34,6 +34,20 @@
 		})
 	}
 
+	function setJobDone(id) {
+		fetch("todoControlAjax.php?act=setFinish&id=" + id)
+		.then(function(resp){
+			//console.log(resp);
+			return resp.text();
+		})
+		.then(function(rr) {
+			if (rr){
+				console.log(rr)
+				loadList()
+			}
+		})
+	}
+	
 	function postData(url,keyword) {
 		let mydat = new FormData();
 		
