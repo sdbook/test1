@@ -22,11 +22,11 @@ function getJobList($type=0) {
 	$aa[]=$a;
 	return  $aa;
 	*/
-	if ($type==1) {
+	if ($type==1) { //已完成工作
 		$sql = "select * from todo where not isnull(finish) order by id desc;";
-	} else if ($type==2) {
+	} else if ($type==2) { //未完成工作
 		$sql = "select * from todo where isnull(finish) order by id desc;";
-	} else {
+	} else { //所有工作
 		$sql = "select * from todo order by id desc;";		
 	}
 	$stmt = mysqli_prepare($db, $sql );

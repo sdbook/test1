@@ -1,7 +1,10 @@
 <?php
 require('todoModel.php');
 
-$act=$_REQUEST['act'];
+if (isset($_REQUEST['act'])) {
+	$act=$_REQUEST['act'];
+} else $act='';
+
 switch ($act) {
 	case "addJob":
 		$title=$_POST['title'];
@@ -10,23 +13,19 @@ switch ($act) {
 		if ($title) {
 			addJob($title,$note);
 		}
-		//header("Location: 1.listUI.php");
+		echo "OK";
 		break;
 	case "setFinish":
 		$id=(int)$_REQUEST['id'];
 		if ($id>0) {
 			setFinished($id);
 		}
-		//header("Location: 1.listUI.php");
+		echo "OK";		
 		break;
 	case "getList":
-		$id=(int)$_REQUEST['id'];
-		if ($id>0) {
-			setFinished($id);
-		}
-		//header("Location: 1.listUI.php");
+		$list = getJobList(2);
+		echo json_encode($list);
 		break;
-
 	default:
 }
 ?>
