@@ -1,0 +1,217 @@
+﻿<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="vue.global.prod.js"></script>
+
+</head>
+
+<body >
+<fieldset>
+	<legend>app</legend>
+<div id="app">
+  {{ message }}
+  <input type="text" v-Model='title'>
+	<div>{{ title }}</div>
+</div>
+</fieldset>
+
+<fieldset>
+	<legend>app-2</legend>
+<div id="app-2">
+  <span v-bind:title="message">
+    Hover your mouse over me for a few seconds
+    to see my dynamically bound title!
+  </span>
+</div>
+</fieldset>
+
+<fieldset>
+	<legend>app-3</legend>
+<div id="app-3">
+  <span v-if="seen">Now you see me</span>
+	<button v-on:click='toggleInside'>切換</button>
+</div>
+
+</fieldset>
+
+<fieldset>
+	<legend>app-4</legend>
+<div id="app-4">
+  <ol>
+    <li v-for="todo in todos">
+      {{ todo.text }}
+    </li>
+  </ol>
+</div>
+</fieldset>
+
+<fieldset>
+	<legend>app-5</legend>
+<div id="app-5">
+  <p>{{ message }}</p>
+  <button v-on:click="reverseMessage">Reverse Message</button>
+</div>
+</fieldset>
+
+<fieldset>
+	<legend>app-6</legend>
+<div id="app-6">
+  <p>{{ message }}</p>
+  <input v-model="message">
+<button v-on:click="loadData">load json to app-6 </button>
+  	<div v-for="(value, key, index) in dat">
+		{{ index }} -- {{ key }}: {{ value }}
+	<br>
+<!--
+	<div v-for="value in dat">
+	  <ol>
+	{{ value }}
+	  </ol>
+-->
+	</div>
+
+</div>
+</fieldset>
+
+<fieldset>
+	<legend>app-7</legend>
+<div id="app-7">
+  <ol>
+    <!--
+      Now we provide each todo-item with the todo object
+      it's representing, so that its content can be dynamic.
+      We also need to provide each component with a "key",
+      which will be explained later.
+    -->
+    <todo-item
+      v-for="item in groceryList"
+      v-bind:todo="item"
+      v-bind:key="item.id">
+    </todo-item>
+
+    <todo-item
+      v-for="item in groceryList1"
+      v-bind:todo="item">
+    </todo-item>
+	
+    <todo-item
+      v-for="item in groceryList2"
+      v-bind:todo="item">
+    </todo-item>
+  </ol>
+</div>
+</fieldset>
+
+<script language="javascript">
+const vm1= Vue.createApp({
+	data() {
+		return {
+			message: 'Hello Vue!',
+			title: 987192847364
+		}
+	}
+}).mount('#app');
+
+const vm2= Vue.createApp({
+	data() {
+		return {
+			message: 'You loaded this page on ' + new Date().toLocaleString()
+		}
+	}
+}).mount('#app-2');
+
+const vm3= Vue.createApp({
+	data() {
+		return {
+			seen: true
+		}
+	},
+	methods: {
+		toggleInside: function () {
+			this.seen = ! this.seen;
+		}
+	}
+}).mount("#app-3");
+
+const vm4= Vue.createApp({
+	data() {
+		return {
+			todos: [
+				{ text: 'Learn JavaScript' },
+				{ text: 'Learn Vue' },
+				{ text: 'Build something awesome' }
+			]
+		}
+	}
+}).mount("#app-4");
+
+vm4.todos.push({ text: 'New item' })
+
+const vm5= Vue.createApp({
+	data() {
+		return {
+			message: 'Hello Vue.js!'
+		}
+	},
+	methods: {
+		reverseMessage: function () {
+			this.message = this.message.split('').reverse().join('')
+		}
+	}
+})
+vm5.mount("#app-5");
+
+const vm6= Vue.createApp({
+	data() {
+		return {
+			message: 'Hello Vue!',
+			dat: []
+		}
+	},
+	methods: {
+		loadData: function () {
+			const that=this;
+			fetch('json.php')
+			.then(function(response) {
+				return response.json();
+			})
+			.then(function(myJson) {
+				that.dat = myJson;
+			});
+		}
+	}
+}).mount("#app-6");
+
+// Define a new component called todo-item
+
+const vm7= Vue.createApp({
+  data() {
+	return {
+		groceryList: [
+		  { id: 0, text: 'Vegetables' },
+		  { id: 1, text: 'Cheese' },
+		  { id: 2, text: 'Whatever else humans are supposed to eat' }
+		],
+		groceryList1: [
+		  { text: 'John' },
+		  { text: 'Jack' },
+		  { text: 'Jordan' }
+		],
+		groceryList2: [
+		  { text: 'Apple' },
+		  { text: 'Banana' },
+		  { text: 'Orange' }
+		],
+	}
+  }
+})
+vm7.component('todo-item', {
+  // The todo-item component now accepts a
+  // "prop", which is like a custom attribute.
+  // This prop is called todo.
+  props: ['todo'],
+  template: '<li>{{ todo.text }}</li>'
+})
+vm7.mount("#app-7")
+</script>
+
+</body></html>
