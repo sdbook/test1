@@ -11,6 +11,7 @@ function baseOBJ() {
 <hr style='clear:both;'/>
 <input type='button' v-on:click='submitit()' value='Save'>
 <br/>
+</form>
 `;
 	
 	this.loadRecord=function (id,div) {
@@ -34,7 +35,6 @@ function baseOBJ() {
 						},
 						methods: {
 							submitit() {									
-								this.isSubmitted = true;
 								let mydat = new FormData();
 								//console.log(this.dat);
 								mydat.append( "dat", JSON.stringify(this.dat) );
@@ -52,10 +52,8 @@ function baseOBJ() {
 							}
 						}
 					});
-					baseApp.mount("#baseForm");
+					baseApp.mount("#"+div);
 				})
 		} //end if
 	} //end loadrecord
 } //end of baseObj function
-var baseObj=new baseOBJ();
-baseObj.loadRecord(1,'main')
