@@ -37,8 +37,17 @@ function baseOBJ() {
 							submitit() {									
 								let mydat = new FormData();
 								//console.log(this.dat);
+								//this is one way
 								mydat.append( "dat", JSON.stringify(this.dat) );
 								mydat.append( "i", this.xid);
+								
+								/*
+								//this is another way
+								for (key in dat) {
+									mydat.append(key, dat[key])
+								}
+								mydat.append( "i", this.xid);
+								*/
 								//console.log(mydat)
 								let url="saveData.php";
 								fetch(url,{
