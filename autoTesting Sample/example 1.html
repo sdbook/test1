@@ -1,0 +1,40 @@
+<html>
+<head>
+<script src='base.js' ></script>
+</head>
+
+<body>
+<button onclick="loadit()">load</button>
+<div id='main'></div>
+
+<script>
+function test(act,v1,v2,answer) {
+	let mydat = new FormData();
+	mydat.append( "act", act );
+	mydat.append( "v1", v1);
+	mydat.append( "v1", v2);
+	let url="testControl.php";
+	fetch(url,{
+		method: 'POST', 
+		body: mydat									
+	})
+	.then(function(res){return res.text(); })
+	.then(function(data){
+		if (data == answer) {
+			console.log('pass')
+		} else {
+			console.log('Fail')
+		}
+	})
+}
+var testCase=$testcase=[
+	[0,2,1],
+	[1,2,1],
+	[1,1,1]
+];
+for (t of testCase) {
+	test('avg',t[0],t[1],t[2]);
+}
+</script>
+</body>
+</html>
