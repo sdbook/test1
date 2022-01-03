@@ -1,0 +1,21 @@
+<script>
+var explode = new Audio('Explosion+3.mp3');
+var gun = new Audio('gun.mp3');
+explode.loop=true;
+gun.loop=true;
+//audio.currentTime = 0;
+//isPaused=audio.paused;
+
+function playNow(audio) {
+	audio.play();
+}
+
+function pauseNow(audio) {
+	audio.pause();
+}
+
+</script>
+
+<img src="images\explode.jpg" onmouseenter="playNow(explode)" onmouseout="pauseNow(explode)">
+<br>
+<img src="images\bomb.jpg" onmouseenter="playNow(gun)" onmouseout="pauseNow(gun)">
