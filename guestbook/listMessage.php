@@ -8,13 +8,16 @@ $result=mysqli_query($conn,$sql) or die("DB Error: Cannot retrieve message.");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- <meta http-equiv="refresh" content="1"> -->
 <title>無標題文件</title>
 </head>
 
 <body>
 
 <p>my guest book !! <a href='addMessageForm.php' target="_blank">Add New Msg</a></p>
+<button onclick='reloadPage()'>Reload</button>
 <hr />
+<div id="main">
 <table width="200" border="1">
   <tr>
     <td>id</td>
@@ -31,5 +34,23 @@ while (	$rs=mysqli_fetch_assoc($result)) {
 }
 ?>
 </table>
+</div>
+<script>
+//settimeout example
+function reloadPage() {
+	//window.location.reload();	
+	fetch()......
+	setTimeout(reloadPage, 1000);
+}
+setTimeout(reloadPage, 1000);
+
+//setinterval example
+function reloadData() {
+	//window.location.reload();	
+	fetch()......
+}
+setInterval(reloadData, 3500);
+
+</script>
 </body>
 </html>
