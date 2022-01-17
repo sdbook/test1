@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- 
+source: https://gist.github.com/tanmaykm/5111225 
+-->
+<html>
+  <head>
+		<title>Websocket Demo</title>
+		<style>
+			#messages {
+				border: dotted 1px #444444;
+				font: 12px arial,sans-serif;
+			}
+			
+			#messages > p {
+				padding: 0px;
+				margin: 0px;
+			}
+		</style>
+<script type="text/javascript" src="jquery-3.5.1.min.js"></script>
+		<script>
+		 	var s;
+				
+			var messages;
+			var form;
+			var inputBox;
+			
+			function log_msg(msg) {
+				console.log(msg);
+			}
+			
+			function doInit() {
+				try {
+					var host = "ws://localhost:4545/";
+					/*if(window.location.hostname) {
+						host = "ws://" + window.location.hostname + ":4545/";
+					}*/
+					
+					s = new WebSocket(host);
+					
+					s.onopen = function (e) { log_msg("connected..."); };
+					s.onclose = function (e) { log_msg("connection closed."); };
+					s.onerror = function (e) { log_msg("connection error."); };
+					s.onmessage = function (e) { 
+						log_msg("message: " + e.data); 
+						strs = e.data.split(',');
+						x=parseInt(strs[0]);
+						y=parseInt(strs[1]);
+						setBoxPosition(y,x)
+					};
+				} catch (ex) {
+					log_msg("connection exception:" + ex);
+				}
+			}
+			
+			
+		function syncMousePosition(x,y) {
+			s.send(x+","+y);
+		}
+		
+		function setBoxPosition(topP, leftP) {
+			w=$("#box").parent().width();
+			h=$("#box").parent().height();
+			if (topP < 0) topP=0;
+			if (leftP < 0) leftP=0;
+			if (leftP > w) leftP=w;
+			if (topP > h) topP=h;
+
+			$("#box").css({top: topP, left: leftP, position:'absolute'});			
+		}
+		
+$(function(){
+	$(document).mousemove(function(e){
+		//var offset = $("#box").offset();
+		//leftP= e.pageX - offset.left,
+		//topP= e.pageY - offset.top
+		syncMousePosition(e.pageX,e.pageY);
+	});
+});
+
+
+		</script>		
+	</head>
+<body onload="doInit()">
+	<div  style="width:100%;height:500px;border-style: solid;position: 'relative';">
+	<div id="box" style="width:10px;height:10px;background-color:red;top:10px;left:10px;"></div>
+	</div>
+</body>
+</html>

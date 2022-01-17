@@ -1,0 +1,59 @@
+<html><head>
+<style type="text/css">
+.keys {
+  width: 200px;
+  height:30px;
+  background-color:aaaaaa;
+  position:inline-block;
+}
+
+.keys:hover {
+  background-color: yellow;
+}
+</style>
+<script>
+var audio = new Audio();
+audio.loop = false;
+
+i = 0;
+var notes = new Array(
+"pianoC.mp3",
+"pianoD.mp3",
+"pianoE.mp3",
+"pianoF.mp3",
+"pianoG.mp3",
+"pianoA.mp3",
+"pianoB.mp3",
+"pianoC2.mp3"
+);
+//audio.volume = 0.3;
+
+
+//audio.currentTime = 0;
+//isPaused=audio.paused;
+
+function playNow(i) {
+	//if (i >= notes.length) i=notes.length-1;
+	//if (i <0) i=0;
+	//if (!audio.paused) audio.pause();
+	audio.src = "notes\\"+notes[i];
+	audio.play();
+}
+
+function pauseNow() {
+	audio.pause();
+}
+
+</script>
+</head>
+<body>
+<div class="keys" onmouseenter="playNow(0)" onmouseout="pauseNow()" >C</div>
+<div class="keys" onmouseenter="playNow(1)" onmouseout="pauseNow()" >D</div>
+<div class="keys" onmouseenter="playNow(2)" onmouseout="pauseNow()" >E</div>
+<div class="keys" onmouseenter="playNow(3)" onmouseout="pauseNow()" >F</div>
+<div class="keys" onmouseenter="playNow(4)" onmouseout="pauseNow()" >G</div>
+<div class="keys" onmouseenter="playNow(5)" onmouseout="pauseNow()" >A</div>
+<div class="keys" onmouseenter="playNow(6)" onmouseout="pauseNow()" >B</div>
+<div class="keys" onmouseenter="playNow(7)" onmouseout="pauseNow()" >C2</div>
+</body>
+</html>

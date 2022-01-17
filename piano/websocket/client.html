@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!-- 
+source: https://gist.github.com/tanmaykm/5111225 
+-->
+<html>
+  <head>
+		<title>Websocket Demo</title>
+		<style>
+			#messages {
+				border: dotted 1px #444444;
+				font: 12px arial,sans-serif;
+			}
+			
+			#messages > p {
+				padding: 0px;
+				margin: 0px;
+			}
+		</style>
+		
+		<script>
+			function log_msg(msg) {
+				var p = document.createElement("p");
+				p.innerHTML = msg;
+				messages.appendChild(p);
+			}
+			var s; //socket object for connection
+			function doInit() {
+				try {
+					var host = "ws://localhost:4545/"; //設定socker server的ip:port
+					/*if(window.location.hostname) {
+						host = "ws://" + window.location.hostname + ":4545/";
+					}*/
+
+					s = new WebSocket(host); //建立socket元件
+					//設定幾個主要事件
+					s.onopen = function (e) { log_msg("connected..."); };
+					s.onclose = function (e) { log_msg("connection closed."); };
+					s.onerror = function (e) { log_msg("connection error."); };
+					
+					//當server送訊息來時
+					s.onmessage = function (e) { 
+						log_msg("message: " + e.data);
+					};
+				} catch (ex) {
+					log_msg("connection exception:" + ex);
+				}
+			}
+			
+			function sendMsg() {
+				inputBox = document.getElementById('message')
+				s.send(inputBox.value);
+				inputBox.value = "";
+			}
+		</script>		
+	</head>
+<body onload="doInit()">
+		<input type="text" id="message">
+		<button onclick="sendMsg()">Send</button>
+	<br/>
+	<div id="messages"></div> 
+</body>
+</html>

@@ -1,0 +1,99 @@
+<html><head>
+<style type="text/css">
+.keys {
+  width: 200px;
+  height:30px;
+  background-color:aaaaaa;
+  position:inline-block;
+}
+
+.keys:hover {
+  background-color: yellow;
+}
+</style>
+
+</head>
+<body onload="doInit()">
+<div class="keys" onmouseenter="send(0)" onmouseout="send(-1)" >C</div>
+<div class="keys" onmouseenter="send(1)" onmouseout="send(-1)" >D</div>
+<div class="keys" onmouseenter="send(2)" onmouseout="send(-1)" >E</div>
+<div class="keys" onmouseenter="send(3)" onmouseout="send(-1)" >F</div>
+<div class="keys" onmouseenter="send(4)" onmouseout="send(-1)" >G</div>
+<div class="keys" onmouseenter="send(5)" onmouseout="send(-1)" >A</div>
+<div class="keys" onmouseenter="send(6)" onmouseout="send(-1)" >B</div>
+<div class="keys" onmouseenter="send(7)" onmouseout="send(-1)" >C2</div>
+<script>
+var audio = new Audio();
+audio.loop = false;
+
+i = 0;
+var notes = new Array(
+"pianoC.mp3",
+"pianoD.mp3",
+"pianoE.mp3",
+"pianoF.mp3",
+"pianoG.mp3",
+"pianoA.mp3",
+"pianoB.mp3",
+"pianoC2.mp3"
+);
+//audio.volume = 0.3;
+
+
+//audio.currentTime = 0;
+//isPaused=audio.paused;
+
+function playNow(i) {
+	//if (i >= notes.length) i=notes.length-1;
+	//if (i <0) i=0;
+	//if (!audio.paused) audio.pause();
+	audio.src = "notes\\"+notes[i];
+	audio.play();
+}
+
+function pauseNow() {
+	audio.pause();
+}
+		 	var s;
+			function log_msg(msg) {
+				console.log(msg);
+			}
+			
+			function doInit() {
+				try {
+					var host = "ws://localhost:4545/";
+					/*if(window.location.hostname) {
+						host = "ws://" + window.location.hostname + ":4545/";
+					}*/
+					
+					s = new WebSocket(host);
+					
+					s.onopen = function (e) { log_msg("connected..."); };
+					s.onclose = function (e) { log_msg("connection closed."); };
+					s.onerror = function (e) { log_msg("connection error."); };
+					s.onmessage = function (e) { 
+						//log_msg("message: " + e.data); 
+						strs = e.data.split(',');
+						if(strs[0]=='PLAY') {
+							i=parseInt(strs[1]);
+							playNow(i);
+						} else if(strs[0]=="PAUSE") {
+							pauseNow();
+						}
+					};
+				} catch (ex) {
+					log_msg("connection exception:" + ex);
+				}
+			}
+			
+			
+		function send(i) {
+			if(i>=0) {
+				s.send("PLAY,"+i);
+			} else {
+				s.send("PAUSE,");
+			}
+		}
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- 
+source: https://gist.github.com/tanmaykm/5111225 
+-->
+<html>
+  <head>
+		<title>Websocket Demo</title>
+		<style>
+			.cell {
+				border: dotted 1px #444444;
+				font: 40px arial,sans-serif;
+			}
+
+		</style>	
+		<script>
+			function log_msg(msg) {
+				console.log( msg);
+			}
+			var s; //socket object for connection
+			function doInit() {
+				try {
+					var host = "ws://localhost:4545/"; //設定socker server的ip:port
+					/*if(window.location.hostname) {
+						host = "ws://" + window.location.hostname + ":4545/";
+					}*/
+
+					s = new WebSocket(host); //建立socket元件
+					//設定幾個主要事件
+					s.onopen = function (e) { log_msg("connected..."); };
+					s.onclose = function (e) { log_msg("connection closed."); };
+					s.onerror = function (e) { log_msg("connection error."); };
+					
+					//當server送訊息來時
+					s.onmessage = function (e) { 
+						log_msg("message: " + e.data);
+						//e.data是Socket server送來的訊息
+						//用, 來切割訊息
+						strs = e.data.split(',');
+						//解讀各段訊息的內容
+						cellID=strs[0]; //個子的ID
+						cellSign=strs[1]; //使用的符號
+						setCell(cellID,cellSign) //改格子的符號
+					};
+				} catch (ex) {
+					log_msg("connection exception:" + ex);
+				}	 
+				
+				//取得class是 "cell" 的元件
+				const cells = document.querySelectorAll(".cell");
+				//逐一設定onclick事件
+				cells.forEach(function(el) {
+					el.onclick=function() { 
+						id=this.id;
+						//console.log(id);
+						if(this.innerHTML=='.') { //若格子尚未被選
+							//取得使用的符號
+							let mySign = document.getElementById('sign').value;
+							//把格子id跟使用的符號傳給socket server
+							s.send(id+","+mySign);
+						}
+					}
+				});
+			}
+			
+			//設定格子的符號
+			function setCell(id,sign) {
+				ce=document.getElementById(id).innerHTML = sign;
+				//ce.value=sign;
+			}
+		</script>		
+	</head>
+<body onload="doInit()">
+	圈叉棋<br/>
+	輸入使用的符號<input type='text' value='O' id='sign'>
+	<table border="1" width="500px" height="500px">
+	<tr><td class='cell' id='00'>.</td><td  class='cell' id='10'>.</td><td  class='cell' id='20'>.</td></tr>
+	<tr><td class='cell' id='01'>.</td><td  class='cell' id='11'>.</td><td  class='cell' id='21'>.</td></tr>
+	<tr><td class='cell' id='02'>.</td><td  class='cell' id='12'>.</td><td  class='cell' id='22'>.</td></tr>
+	</table>
+</body>
+</html>
