@@ -20,5 +20,6 @@ $msg =$_GET['b'];
 
 echo "Got the parameter: a=$tot, and b=$msg";
 ?>
+add by b
 </body>
 </html>
