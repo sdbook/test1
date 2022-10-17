@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>文件1</title>
+<title>文件1 from b</title>
 </head>
 
 <body>
@@ -20,5 +20,6 @@ $msg =$_GET['b'];
 
 echo "Got the parameter: a=$tot, and b=$msg";
 ?>
+another ;ine from n
 </body>
 </html>
