@@ -9,7 +9,7 @@
 <p>hello world</p>
 <hr />
 <?php
-
+//new comment
 if (! isset($_GET["a"]) or ! isset($_GET["b"])) {
 	die "There is no required parameter!";
 }
